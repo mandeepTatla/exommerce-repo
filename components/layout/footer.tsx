@@ -11,30 +11,21 @@ export default async function Footer() {
 
   return (
     <footer className="bg-black">
-      <div className="mx-auto max-w-7xl px-6 pb-8 pt-16 sm:pt-16 lg:px-8 lg:pt-16">
-        <div className="xl:grid xl:grid-cols-3 xl:gap-8">
-          <div className="text-white">{copyrightName}</div>
-          <div className="mt-8 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
-            <div className="md:grid md:grid-cols-2 md:gap-8">
-              <div>
-                <ul role="list" className="mt-6 space-y-4">
-                  {menu.map((item) => (
-                    <li key={item.title}>
-                      <a href={item.path} className="text-sm/6 text-white">
-                        {item.title}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-            </div>
-          </div>
-        </div>
-        <div className="mt-16 border-t border-white/10 pt-8 sm:mt-20 lg:mt-24 lg:flex lg:items-center lg:justify-between">
+      <div className="mx-auto max-w-screen-2xl items-center justify-between p-[1rem_1rem_0.5rem] px-4 md:p-4 lg:px-6 overflow-hidden">
+        <nav
+          aria-label="Footer"
+          className="-mb-6 flex flex-wrap justify-center gap-x-12 gap-y-3 text-sm/6"
+        >
+          {menu.map((item) => (
+            <a key={item.title} href={item.path} className="text-white hover:text-white">
+              {item.title}
+            </a>
+          ))}
+        </nav>
+        <div className="mt-16 border-t border-white/10 pt-8 sm:mt-20 lg:mt-20 lg:flex lg:items-center lg:justify-between">
           <div>
             <h3 className="text-md/10 font-semibold text-white">Subscribe to our newsletter</h3>
-            <p className="mt-2 text-md/5 text-gray-300">
+            <p className="text-md/5 mt-2 text-gray-300">
               The latest news, articles, and resources, sent to your inbox weekly.
             </p>
           </div>
@@ -61,13 +52,10 @@ export default async function Footer() {
             </div>
           </form>
         </div>
-        <div className="mt-8 border-t border-white/10 pt-8 md:flex md:items-center md:justify-between">
-          <div className="flex gap-x-6 md:order-2"></div>
-          <p className="mt-2 text-sm/6 text-gray-400 md:order-1 md:mt-0">
-            &copy; {copyrightDate} {copyrightName}. All rights reserved.
-          </p>
-        </div>
       </div>
+      <p className="align-center mt-2 flex justify-center bg-white p-4 text-sm/6 text-[#666666] md:order-1 md:mt-0">
+        &copy; {copyrightDate} {copyrightName}. All rights reserved.
+      </p>
     </footer>
   );
 }
