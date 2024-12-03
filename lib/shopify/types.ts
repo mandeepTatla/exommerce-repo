@@ -52,6 +52,12 @@ export type Menu = {
   path: string;
 };
 
+export type MegaMenu = {
+  title: string;
+  path: string;
+  items?: Menu[];
+};
+
 export type Money = {
   amount: string;
   currencyCode: string;

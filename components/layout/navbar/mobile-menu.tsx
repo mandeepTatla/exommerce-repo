@@ -5,16 +5,24 @@ import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { Fragment, Suspense, useEffect, useState } from 'react';
 
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import { Menu } from 'lib/shopify/types';
+import { Bars3Icon, ChevronDownIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { MegaMenu, Menu } from 'lib/shopify/types';
 import Search, { SearchSkeleton } from './search';
 
 export default function MobileMenu({ menu }: { menu: Menu[] }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
+  const [expandedItems, setExpandedItems] = useState<string[]>([]);
+
   const openMobileMenu = () => setIsOpen(true);
   const closeMobileMenu = () => setIsOpen(false);
+
+  const toggleItem = (title: string) => {
+    setExpandedItems((prev) =>
+      prev.includes(title) ? prev.filter((item) => item !== title) : [...prev, title]
+    );
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -30,9 +38,38 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
     setIsOpen(false);
   }, [pathname, searchParams]);
 
+  const renderMenuItems = (items: MegaMenu[], level = 0) => (
+    <ul className={`pl-${level * 2 + 1} space-y-2`}>
+      {items.map((item) => (
+        <li key={item.title} className="flex flex-col">
+          <div
+            className="flex items-center justify-between border-b border-[#D8D8D8] p-3 text-lg text-black hover:bg-gray-100 dark:text-white dark:hover:bg-neutral-800"
+            onClick={() =>
+              item.items && item.items.length ? toggleItem(item.title) : closeMobileMenu()
+            }
+          >
+            <Link href={item.path} prefetch={true} className="flex-1">
+              {item.title}
+            </Link>
+            {item.items && item.items.length > 0 && (
+              <ChevronDownIcon
+                className={`h-5 transform transition-transform ${
+                  expandedItems.includes(item.title) ? 'rotate-180' : 'rotate-0'
+                }`}
+              />
+            )}
+          </div>
+          {item.items && item.items.length > 0 && expandedItems.includes(item.title) && (
+            <div className="p-2">{renderMenuItems(item.items, level + 1)}</div>
+          )}
+        </li>
+      ))}
+    </ul>
+  );
+
   return (
     <>
-      <button onClick={openMobileMenu} aria-label="Open mobile menu">
+      <button className="pt-[7px]" onClick={openMobileMenu} aria-label="Open mobile menu">
         <Bars3Icon className="h-7" />
       </button>
       <Transition show={isOpen}>
@@ -57,35 +94,22 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
             leaveFrom="translate-x-0"
             leaveTo="translate-x-[-100%]"
           >
-            <Dialog.Panel className="fixed bottom-0 left-0 right-0 top-0 flex h-full w-full flex-col bg-white pb-6 dark:bg-black">
-              <div className="p-4">
+            <Dialog.Panel className="fixed bottom-0 left-0 right-0 top-0 flex h-full w-full flex-col overflow-y-auto bg-white pb-6 dark:bg-black">
+              <div>
                 <button
-                  className="mb-4 flex h-11 w-11 items-center justify-center rounded-md border border-neutral-200 text-black transition-colors dark:border-neutral-700 dark:text-white"
+                  className="mb-4 flex h-11 w-11 items-center justify-center text-black transition-colors dark:border-neutral-700 dark:text-white"
                   onClick={closeMobileMenu}
                   aria-label="Close mobile menu"
                 >
-                  <XMarkIcon className="h-6" />
+                  <XMarkIcon className="h-8" />
                 </button>
 
-                <div className="mb-4 w-full">
+                <div className="mb-4 w-full p-2">
                   <Suspense fallback={<SearchSkeleton />}>
                     <Search />
                   </Suspense>
                 </div>
-                {menu.length ? (
-                  <ul className="flex w-full flex-col">
-                    {menu.map((item: Menu) => (
-                      <li
-                        className="py-2 text-xl text-black transition-colors hover:text-neutral-500 dark:text-white"
-                        key={item.title}
-                      >
-                        <Link href={item.path} prefetch={true} onClick={closeMobileMenu}>
-                          {item.title}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                ) : null}
+                {menu.length ? renderMenuItems(menu) : null}
               </div>
             </Dialog.Panel>
           </Transition.Child>

@@ -8,6 +8,9 @@ const config: Config = {
       fontFamily: {
         sans: ['var(--font-geist-sans)']
       },
+      colors: {
+        lightGray: '#f3f3f3'
+      },
       keyframes: {
         fadeIn: {
           from: { opacity: '0' },

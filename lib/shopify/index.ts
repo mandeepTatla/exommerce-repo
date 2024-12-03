@@ -349,12 +349,15 @@ export async function getMenu(handle: string): Promise<Menu[]> {
     }
   });
 
-  return (
-    res.body?.data?.menu?.items.map((item: { title: string; url: string }) => ({
+  // Recursive function to process menu items
+  const processItems = (items: any[]): Menu[] =>
+    items.map((item) => ({
       title: item.title,
-      path: item.url.replace(domain, '').replace('/collections', '/search').replace('/pages', '')
-    })) || []
-  );
+      path: item.url.replace(domain, '').replace('/collections', '/search').replace('/pages', ''),
+      items: item.items && item.items.length > 0 ? processItems(item.items) : []
+    }));
+
+  return res.body?.data?.menu?.items ? processItems(res.body.data.menu.items) : [];
 }
 
 export async function getPage(handle: string): Promise<Page> {
