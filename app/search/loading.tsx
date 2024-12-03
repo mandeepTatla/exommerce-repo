@@ -13,9 +13,9 @@ export default function Loading() {
                 key={index}
                 className="animate-pulse border-b border-r border-t border-gray-200 p-4 sm:p-6"
               >
-                <div className="aspect-square w-full rounded-md bg-neutral-100 dark:bg-neutral-800" />
-                <div className="mx-auto mt-6 h-4 w-3/4 rounded-md bg-neutral-100 dark:bg-neutral-800" />
-                <div className="mx-auto mt-4 h-4 w-1/2 rounded-md bg-neutral-100 dark:bg-neutral-800" />
+                <div className="aspect-square w-full rounded-md bg-neutral-100" />
+                <div className="mx-auto mt-6 h-4 w-3/4 rounded-md bg-neutral-100" />
+                <div className="mx-auto mt-4 h-4 w-1/2 rounded-md bg-neutral-100" />
               </Grid.Item>
             );
           })}

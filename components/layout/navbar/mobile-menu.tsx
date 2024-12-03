@@ -43,7 +43,7 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
       {items.map((item) => (
         <li key={item.title} className="flex flex-col">
           <div
-            className="flex items-center justify-between border-b border-[#D8D8D8] p-3 text-lg text-black hover:bg-gray-100 dark:text-white dark:hover:bg-neutral-800"
+            className="flex items-center justify-between border-b border-[#D8D8D8] p-3 text-lg text-black hover:bg-gray-100"
             onClick={() =>
               item.items && item.items.length ? toggleItem(item.title) : closeMobileMenu()
             }
@@ -94,10 +94,10 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
             leaveFrom="translate-x-0"
             leaveTo="translate-x-[-100%]"
           >
-            <Dialog.Panel className="fixed bottom-0 left-0 right-0 top-0 flex h-full w-full flex-col overflow-y-auto bg-white pb-6 dark:bg-black">
+            <Dialog.Panel className="fixed bottom-0 left-0 right-0 top-0 flex h-full w-full flex-col overflow-y-auto bg-white">
               <div>
                 <button
-                  className="mb-4 flex h-11 w-11 items-center justify-center text-black transition-colors dark:border-neutral-700 dark:text-white"
+                  className="mb-4 flex h-11 w-11 items-center justify-center text-black transition-colors"
                   onClick={closeMobileMenu}
                   aria-label="Close mobile menu"
                 >
