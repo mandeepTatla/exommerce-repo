@@ -12,7 +12,7 @@ export async function Navbar() {
   const menu = await getMenu('next-js-frontend-header-menu');
 
   return (
-    <div className="border-lightGray mb-3 border-b">
+    <div className="border-lightGray mb-3 border-b sticky top-0 bg-white z-50 shadow-md">
       <div className="flex justify-center bg-black p-1 text-white">Welcome to the store</div>
       <nav className="relative mx-auto flex max-w-screen-2xl items-center justify-between p-[1rem_1rem_0.5rem] px-4 md:p-4 lg:px-6">
         <div className="block flex-none md:hidden">
