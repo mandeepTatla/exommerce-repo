@@ -1,3 +1,4 @@
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { CartProvider } from 'components/cart/cart-context';
 import { Navbar } from 'components/layout/navbar';
 import { GeistSans } from 'geist/font/sans';
@@ -48,6 +49,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           <main>
             {children}
             <Toaster closeButton />
+            <SpeedInsights />
           </main>
         </CartProvider>
       </body>
