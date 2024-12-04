@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { CartProvider } from 'components/cart/cart-context';
 import { Navbar } from 'components/layout/navbar';
@@ -50,6 +51,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
             {children}
             <Toaster closeButton />
             <SpeedInsights />
+            <Analytics />
           </main>
         </CartProvider>
       </body>
