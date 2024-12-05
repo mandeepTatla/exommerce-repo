@@ -2,9 +2,9 @@ import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { CartProvider } from 'components/cart/cart-context';
 import { Navbar } from 'components/layout/navbar';
-import { GeistSans } from 'geist/font/sans';
 import { getCart } from 'lib/shopify';
 import { ensureStartsWith } from 'lib/utils';
+import { Roboto } from 'next/font/google';
 import { cookies } from 'next/headers';
 import { ReactNode } from 'react';
 import { Toaster } from 'sonner';
@@ -37,13 +37,20 @@ export const metadata = {
     })
 };
 
+const roboto = Roboto({
+  subsets: ['latin'],
+  style: ['normal', 'italic'],
+  variable: '--font-roboto',
+  weight: ['400', '500', '700', '900'] 
+});
+
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const cartId = (await cookies()).get('cartId')?.value;
   // Don't await the fetch, pass the Promise to the context provider
   const cart = getCart(cartId);
 
   return (
-    <html lang="en" className={GeistSans.variable}>
+    <html lang="en" className={roboto.variable}>
       <body className="bg-white-50 text-black selection:bg-teal-300">
         <CartProvider cartPromise={cart}>
           <Navbar />

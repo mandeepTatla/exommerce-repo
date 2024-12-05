@@ -7,7 +7,7 @@ const config: Config = {
   theme: {
   	extend: {
   		fontFamily: {
-  			sans: ['var(--font-geist-sans)']
+  			sans: ['var(--font-roboto)']
   		},
   		colors: {
   			lightGray: '#f3f3f3',
