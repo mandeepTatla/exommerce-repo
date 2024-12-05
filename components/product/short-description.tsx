@@ -5,11 +5,7 @@ export function ShortProductDescription({ product }: { product: any }) {
 
   if (!shortDescriptionMetafield) return null;
 
-  console.log(product);
-
   const parsedValue = JSON.parse(shortDescriptionMetafield.value);
-
-  console.log(parsedValue);
 
   const renderRichTextContent = (content: any, index: number = 0) => {
     if (!content || !content.type) return null;
