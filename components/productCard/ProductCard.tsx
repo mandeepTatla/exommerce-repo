@@ -10,9 +10,9 @@ type Products = {
 export default function ProductCard(props: Products) {
   return (
     <div className="mx-auto max-w-7xl overflow-hidden sm:px-6 lg:px-8">
-      <div className="-mx-px grid grid-cols-2 border-l border-gray-200 sm:mx-0 md:grid-cols-3 lg:grid-cols-4">
+      <ul className="-mx-px grid grid-cols-2 border-l border-gray-200 sm:mx-0 md:grid-cols-3 lg:grid-cols-4">
         {props.products.map((product) => (
-          <div
+          <li
             key={product.id}
             className="group relative border-b border-r border-t border-gray-200 p-4 sm:p-6"
           >
@@ -39,9 +39,9 @@ export default function ProductCard(props: Products) {
                 </div>
               </div>
             </Link>
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 }

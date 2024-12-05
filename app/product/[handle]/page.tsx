@@ -1,14 +1,15 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { GridTileImage } from 'components/grid/tile';
 import Footer from 'components/layout/footer';
+import Price from 'components/price';
 import { Gallery } from 'components/product/gallery';
 import { ProductProvider } from 'components/product/product-context';
 import { ProductDescription } from 'components/product/product-description';
 import { HIDDEN_PRODUCT_TAG } from 'lib/constants';
 import { getProduct, getProductRecommendations } from 'lib/shopify';
-import { Image } from 'lib/shopify/types';
+import { Image as ImageTypes } from 'lib/shopify/types';
+import Image from 'next/image';
 import Link from 'next/link';
 import { Suspense } from 'react';
 
@@ -89,7 +90,7 @@ export default async function ProductPage(props: { params: Promise<{ handle: str
               }
             >
               <Gallery
-                images={product.images.slice(0, 5).map((image: Image) => ({
+                images={product.images.slice(0, 5).map((image: ImageTypes) => ({
                   src: image.url,
                   altText: image.altText
                 }))}
@@ -117,33 +118,40 @@ async function RelatedProducts({ id }: { id: string }) {
 
   return (
     <div className="py-8">
-      <h2 className="mb-4 text-2xl font-bold">Related Products</h2>
-      <ul className="flex w-full gap-4 overflow-x-auto pt-1">
-        {relatedProducts.map((product) => (
-          <li
-            key={product.handle}
-            className="aspect-square w-full flex-none min-[475px]:w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5"
-          >
-            <Link
-              className="relative h-full w-full"
-              href={`/product/${product.handle}`}
-              prefetch={true}
+      <h2 className="mb-4 text-center text-2xl font-bold">You might also like</h2>
+      <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <ul className="-mx-px grid grid-cols-2 border-l border-gray-200 sm:mx-0 md:grid-cols-3 lg:grid-cols-4">
+          {relatedProducts.map((product) => (
+            <li
+              key={product.handle}
+              className="group relative border-b border-r border-t border-gray-200 p-4 sm:p-6"
             >
-              <GridTileImage
-                alt={product.title}
-                label={{
-                  title: product.title,
-                  amount: product.priceRange.maxVariantPrice.amount,
-                  currencyCode: product.priceRange.maxVariantPrice.currencyCode
-                }}
-                src={product.featuredImage?.url}
-                fill
-                sizes="(min-width: 1024px) 20vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, (min-width: 475px) 50vw, 100vw"
-              />
-            </Link>
-          </li>
-        ))}
-      </ul>
+              <Link
+                className="relative inline-block h-full w-full"
+                href={`/product/${product.handle}`}
+                prefetch={true}
+              >
+                <Image
+                  alt={product.title}
+                  src={product.featuredImage?.url}
+                  width={255}
+                  height={255}
+                  className="bg-white-200 aspect-square rounded-md object-contain group-hover:opacity-75"
+                />
+                <div className="pb-4 pt-10 text-center">
+                  <h3 className="text-sm font-medium text-gray-900">{product.title}</h3>
+                  <div className="mt-4">
+                    <Price
+                      amount={product.priceRange.maxVariantPrice.amount}
+                      currencyCode={product.priceRange.maxVariantPrice.currencyCode}
+                    />
+                  </div>
+                </div>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

@@ -74,9 +74,9 @@ export default function CartModal() {
             leaveFrom="translate-x-0"
             leaveTo="translate-x-full"
           >
-            <Dialog.Panel className="fixed bottom-0 right-0 top-0 flex h-full w-full flex-col border-l border-neutral-200 bg-white/80 p-6 text-black backdrop-blur-xl md:w-[390px]">
-              <div className="flex items-center justify-between">
-                <p className="text-lg font-semibold">My Cart</p>
+            <Dialog.Panel className="fixed bottom-0 right-0 top-0 flex h-full w-full flex-col bg-white pb-6 text-black backdrop-blur-xl md:w-[390px]">
+              <div className="flex items-center justify-between bg-black pl-4 pr-4">
+                <p className="text-lg font-semibold text-white">My Cart</p>
                 <button aria-label="Close cart" onClick={closeCart}>
                   <CloseCart />
                 </button>
@@ -88,8 +88,8 @@ export default function CartModal() {
                   <p className="mt-6 text-center text-2xl font-bold">Your cart is empty.</p>
                 </div>
               ) : (
-                <div className="flex h-full flex-col justify-between overflow-hidden p-1">
-                  <ul className="flex-grow overflow-auto py-4">
+                <div className="flex h-full flex-col justify-between overflow-hidden p-4">
+                  <ul className="flex-grow overflow-auto">
                     {cart.lines
                       .sort((a, b) =>
                         a.merchandise.product.title.localeCompare(b.merchandise.product.title)
@@ -149,7 +149,7 @@ export default function CartModal() {
                               </div>
                               <div className="flex h-16 flex-col justify-between">
                                 <Price
-                                  className="flex justify-end space-y-2 text-right text-sm"
+                                  className="flex justify-end space-y-2 text-right font-medium text-md"
                                   amount={item.cost.totalAmount.amount}
                                   currencyCode={item.cost.totalAmount.currencyCode}
                                 />
@@ -175,20 +175,8 @@ export default function CartModal() {
                       })}
                   </ul>
                   <div className="py-4 text-sm text-neutral-500">
-                    <div className="mb-3 flex items-center justify-between border-b border-neutral-200 pb-1">
-                      <p>Taxes</p>
-                      <Price
-                        className="text-right text-base text-black"
-                        amount={cart.cost.totalTaxAmount.amount}
-                        currencyCode={cart.cost.totalTaxAmount.currencyCode}
-                      />
-                    </div>
                     <div className="mb-3 flex items-center justify-between border-b border-neutral-200 pb-1 pt-1">
-                      <p>Shipping</p>
-                      <p className="text-right">Calculated at checkout</p>
-                    </div>
-                    <div className="mb-3 flex items-center justify-between border-b border-neutral-200 pb-1 pt-1">
-                      <p>Total</p>
+                      <p className='text-lg text-black'>Subtotal</p>
                       <Price
                         className="text-right text-base text-black"
                         amount={cart.cost.totalAmount.amount}
@@ -214,7 +202,7 @@ function CheckoutButton() {
 
   return (
     <button
-      className="block w-full rounded-full bg-blue-600 p-3 text-center text-sm font-medium text-white opacity-90 hover:opacity-100"
+      className="block w-full rounded-[2px] bg-black p-3 text-center text-lg font-bold italic text-white hover:opacity-80"
       type="submit"
       disabled={pending}
     >
