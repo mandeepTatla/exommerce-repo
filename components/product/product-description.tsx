@@ -9,8 +9,8 @@ export function ProductDescription({ product }: { product: Product }) {
   return (
     <>
       <div className="mb-6 flex flex-col border-b pb-6">
-        <h1 className="mb-3 text-3xl font-medium">{product.title}</h1>
-        <div className="mb-3 text-3xl font-medium">
+        <h1 className="mb-3 text-3xl font-bold">{product.title}</h1>
+        <div className="mb-3 text-3xl font-bold">
           <Price
             amount={product.priceRange.maxVariantPrice.amount}
             currencyCode={product.priceRange.maxVariantPrice.currencyCode}
