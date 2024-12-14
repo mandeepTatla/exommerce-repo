@@ -2,34 +2,44 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6';
-import { A11y, Autoplay, Navigation, Pagination } from 'swiper/modules';
+import { A11y, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Price from '../price';
+import styles from './ProductSlider.module.css';
 
 const ProductSlider = ({ title, products }: { title: string; products: any[] }) => {
   const prevButtonRef = useRef<HTMLButtonElement>(null);
   const nextButtonRef = useRef<HTMLButtonElement>(null);
 
+  const [isBeginning, setIsBeginning] = useState(true);
+  const [isEnd, setIsEnd] = useState(false);
+
   if (!products || products.length === 0) return null;
 
   return (
-    <div className="mx-auto mb-6 mt-6 max-w-[1500px] px-4">
+    <div className={`${styles.container} mx-auto mb-6 mt-6 max-w-[1500px] px-4`}>
       <div className="flex items-center justify-between gap-4 pb-4">
         <h2 className="text-customGray text-[1.2rem] font-bold">{title}</h2>
         <div className="flex items-center gap-2">
           <div>See more</div>
           <button
             ref={prevButtonRef}
-            className="rounded-full bg-gray-200 p-2 hover:bg-gray-300"
+            disabled={isBeginning}
+            className={`rounded-full bg-gray-200 p-2 hover:bg-gray-300 ${
+              isBeginning ? 'cursor-not-allowed opacity-50' : ''
+            }`}
             aria-label="Previous"
           >
             <FaAngleLeft />
           </button>
           <button
             ref={nextButtonRef}
-            className="rounded-full bg-gray-200 p-2 hover:bg-gray-300"
+            disabled={isEnd}
+            className={`rounded-full bg-gray-200 p-2 hover:bg-gray-300 ${
+              isEnd ? 'cursor-not-allowed opacity-50' : ''
+            }`}
             aria-label="Next"
           >
             <FaAngleRight />
@@ -37,13 +47,14 @@ const ProductSlider = ({ title, products }: { title: string; products: any[] }) 
         </div>
       </div>
       <Swiper
-        modules={[Pagination, A11y, Autoplay, Navigation]}
+        modules={[Pagination, A11y, Navigation]}
         navigation={{
           prevEl: prevButtonRef.current,
           nextEl: nextButtonRef.current
         }}
         pagination={{
           type: 'bullets',
+          clickable: true,
           dynamicBullets: true
         }}
         slidesPerView={2}
@@ -60,6 +71,10 @@ const ProductSlider = ({ title, products }: { title: string; products: any[] }) 
             swiper.params.navigation.nextEl = nextButtonRef.current;
           }
           swiper.navigation.update();
+        }}
+        onSlideChange={(swiper) => {
+          setIsBeginning(swiper.isBeginning);
+          setIsEnd(swiper.isEnd);
         }}
       >
         {products.map((product, index) => (
