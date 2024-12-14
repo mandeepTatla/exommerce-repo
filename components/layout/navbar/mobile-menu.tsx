@@ -5,8 +5,9 @@ import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { Fragment, Suspense, useEffect, useState } from 'react';
 
-import { Bars3Icon, ChevronDownIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { ChevronDownIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { MegaMenu, Menu } from 'lib/shopify/types';
+import { FaBars } from 'react-icons/fa6';
 import Search, { SearchSkeleton } from './search';
 
 export default function MobileMenu({ menu }: { menu: Menu[] }) {
@@ -70,7 +71,7 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
   return (
     <>
       <button className="pt-[7px]" onClick={openMobileMenu} aria-label="Open mobile menu">
-        <Bars3Icon className="h-7" />
+        <FaBars className='text-[22px]' />
       </button>
       <Transition show={isOpen}>
         <Dialog onClose={closeMobileMenu} className="relative z-50">
