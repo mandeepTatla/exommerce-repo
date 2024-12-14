@@ -3,6 +3,7 @@ import { getMenu } from 'lib/shopify';
 import Link from 'next/link';
 import { Suspense } from 'react';
 import DesktopMenu from './desktop-menu';
+import DynamicMessages from './DynamicMessages';
 import MobileMenu from './mobile-menu';
 import Search, { SearchSkeleton } from './search';
 
@@ -10,10 +11,15 @@ const { SITE_NAME } = process.env;
 
 export async function Navbar() {
   const menu = await getMenu('next-js-frontend-header-menu');
+  const messages = [
+    'Welcome to our store, where quality meets value!',
+    'Enjoy free shipping on orders over $50!',
+    'Fast and reliable delivery to your doorstep.'
+  ];
 
   return (
-    <div className="border-lightGray mb-3 border-b sticky top-0 bg-white z-50 shadow-md">
-      <div className="flex justify-center bg-black p-1 text-white">Welcome to the store</div>
+    <div className="sticky top-0 z-50 mb-3 border-b border-lightGray bg-white shadow-md">
+      <DynamicMessages messages={messages} />
       <nav className="relative mx-auto flex max-w-screen-2xl items-center justify-between p-[1rem_1rem_0.5rem] px-4 md:p-4 lg:px-6">
         <div className="block flex-none md:hidden">
           <Suspense fallback={null}>
@@ -27,9 +33,7 @@ export async function Navbar() {
               prefetch={true}
               className="mr-2 flex w-full items-center justify-center md:w-auto lg:mr-6"
             >
-              <div className="ml-2 flex-none text-lg font-medium uppercase">
-                {SITE_NAME}
-              </div>
+              <div className="ml-2 flex-none text-lg font-medium uppercase">{SITE_NAME}</div>
             </Link>
           </div>
           <div className="hidden justify-center md:flex md:w-1/3">
@@ -48,7 +52,7 @@ export async function Navbar() {
         </Suspense>
       </div>
 
-      <DesktopMenu  menu={menu} />
+      <DesktopMenu menu={menu} />
     </div>
   );
 }
