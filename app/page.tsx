@@ -23,8 +23,10 @@ export default async function HomePage() {
   return (
     <>
       <HeroSection heroData={heroContent} />
-      <FeaturedProductSlider />
-      <TrendingProductSlider />
+      <div className="px-4">
+        <FeaturedProductSlider />
+        <TrendingProductSlider />
+      </div>
       <Footer />
     </>
   );

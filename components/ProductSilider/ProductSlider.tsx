@@ -19,7 +19,7 @@ const ProductSlider = ({ title, products }: { title: string; products: any[] }) 
   if (!products || products.length === 0) return null;
 
   return (
-    <div className={`${styles.container} mx-auto mb-6 mt-6 max-w-[1500px] px-4`}>
+    <div className={`${styles.container} mx-auto mb-6 mt-6 max-w-[1500px]`}>
       <div className="flex items-center justify-between gap-4 pb-4">
         <h2 className="text-customGray text-[1.2rem] font-bold">{title}</h2>
         <div className="flex items-center gap-2">

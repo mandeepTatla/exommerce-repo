@@ -1,16 +1,14 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
+import ProductSlider from '@/components/ProductSilider/ProductSlider';
 import Footer from 'components/layout/footer';
-import Price from 'components/price';
 import { Gallery } from 'components/product/gallery';
 import { ProductProvider } from 'components/product/product-context';
 import { ProductDescription } from 'components/product/product-description';
 import { HIDDEN_PRODUCT_TAG } from 'lib/constants';
 import { getProduct, getProductRecommendations } from 'lib/shopify';
 import { Image as ImageTypes } from 'lib/shopify/types';
-import Image from 'next/image';
-import Link from 'next/link';
 import { Suspense } from 'react';
 
 export async function generateMetadata(props: {
@@ -116,42 +114,5 @@ async function RelatedProducts({ id }: { id: string }) {
 
   if (!relatedProducts.length) return null;
 
-  return (
-    <div className="py-8">
-      <h2 className="mb-4 text-center text-2xl font-bold">You might also like</h2>
-      <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <ul className="-mx-px grid grid-cols-2 border-l border-gray-200 sm:mx-0 md:grid-cols-3 lg:grid-cols-4">
-          {relatedProducts.map((product) => (
-            <li
-              key={product.handle}
-              className="group relative border-b border-r border-t border-gray-200 p-4 sm:p-6"
-            >
-              <Link
-                className="relative inline-block h-full w-full"
-                href={`/product/${product.handle}`}
-                prefetch={true}
-              >
-                <Image
-                  alt={product.title}
-                  src={product.featuredImage?.url}
-                  width={255}
-                  height={255}
-                  className="bg-white-200 aspect-square rounded-md object-contain group-hover:opacity-75"
-                />
-                <div className="pb-4 pt-10 text-center">
-                  <h3 className="text-sm font-medium text-gray-900">{product.title}</h3>
-                  <div className="mt-4">
-                    <Price
-                      amount={product.priceRange.maxVariantPrice.amount}
-                      currencyCode={product.priceRange.maxVariantPrice.currencyCode}
-                    />
-                  </div>
-                </div>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  );
+  return <ProductSlider products={relatedProducts} title="You might also like" />;
 }
