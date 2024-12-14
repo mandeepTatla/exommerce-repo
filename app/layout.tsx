@@ -8,6 +8,10 @@ import { Roboto } from 'next/font/google';
 import { cookies } from 'next/headers';
 import { ReactNode } from 'react';
 import { Toaster } from 'sonner';
+import 'swiper/css';
+import 'swiper/css/autoplay';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 import './globals.css';
 
 const { TWITTER_CREATOR, TWITTER_SITE, SITE_NAME } = process.env;
@@ -41,7 +45,7 @@ const roboto = Roboto({
   subsets: ['latin'],
   style: ['normal', 'italic'],
   variable: '--font-roboto',
-  weight: ['400', '500', '700', '900'] 
+  weight: ['400', '500', '700', '900']
 });
 
 export default async function RootLayout({ children }: { children: ReactNode }) {

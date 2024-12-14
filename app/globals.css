@@ -14,6 +14,23 @@ button {
   @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-50;
 }
 
+.swiper-pagination-bullet {
+  background-color: #a39a9a;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  opacity: 0.7;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #3d3935; /* Custom active color */
+  transform: scale(1.25);
+  opacity: 1;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

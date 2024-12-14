@@ -10,6 +10,7 @@ const config: Config = {
   			sans: ['var(--font-roboto)']
   		},
   		colors: {
+			customGray: '#3D3935',
   			lightGray: '#f3f3f3',
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',

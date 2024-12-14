@@ -17,7 +17,7 @@ import {
   getCollectionsQuery
 } from './queries/collection';
 import { getMenuQuery } from './queries/menu';
-import { getPageQuery, getPagesQuery } from './queries/page';
+import { getMetaobjectsQuery, getPageQuery, getPagesQuery } from './queries/page';
 import {
   getProductQuery,
   getProductRecommendationsQuery,
@@ -423,6 +423,18 @@ export async function getProducts({
   });
 
   return reshapeProducts(removeEdgesAndNodes(res.body.data.products));
+}
+
+export async function getMetaobject(type: string): Promise<any[]> {
+  const res = await shopifyFetch<any>({
+    query: getMetaobjectsQuery,
+    cache: 'no-store',
+    variables: { type }
+  });
+
+  const metaobjects = res.body?.data?.metaobjects?.edges.map((edge: any) => edge.node);
+
+  return metaobjects || [];
 }
 
 // This is called from `app/api/revalidate.ts` so providers can control revalidation logic.
