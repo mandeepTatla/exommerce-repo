@@ -24,8 +24,6 @@ export const SubscribeForm = () => {
         body: JSON.stringify(payload)
       });
 
-      console.log(response);
-
       if (!response.ok) {
         const errorData = await response.json();
         console.log(errorData.message);
