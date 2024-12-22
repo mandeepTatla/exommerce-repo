@@ -1,14 +1,11 @@
 'use client';
 
 import { Dialog, Transition } from '@headlessui/react';
+import { MegaMenu, Menu } from 'lib/shopify/types';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { Fragment, Suspense, useEffect, useState } from 'react';
-
-import { ChevronDownIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import { MegaMenu, Menu } from 'lib/shopify/types';
-import { FaBars } from 'react-icons/fa6';
-import Search, { SearchSkeleton } from './search';
+import { Fragment, useEffect, useState } from 'react';
+import { FaBars, FaMinus, FaPlus, FaXmark } from 'react-icons/fa6';
 
 export default function MobileMenu({ menu }: { menu: Menu[] }) {
   const pathname = usePathname();
@@ -39,29 +36,52 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
     setIsOpen(false);
   }, [pathname, searchParams]);
 
+  // Render Menu Items - Non-clickable parent if it has children
   const renderMenuItems = (items: MegaMenu[], level = 0) => (
     <ul className={`pl-${level * 2 + 1} space-y-2`}>
       {items.map((item) => (
         <li key={item.title} className="flex flex-col">
           <div
-            className="flex items-center justify-between border-b border-[#D8D8D8] p-3 text-lg text-black hover:bg-gray-100"
-            onClick={() =>
-              item.items && item.items.length ? toggleItem(item.title) : closeMobileMenu()
-            }
+            className={`flex items-center justify-between border-b border-[#ededed] px-4 py-2 text-lg text-black hover:bg-gray-100 ${
+              level === 1 ? 'ml-6 mr-6' : ''
+            }`}
           >
-            <Link href={item.path} prefetch={true} className="flex-1">
-              {item.title}
-            </Link>
+            {item.items && item.items.length > 0 ? (
+              // Non-clickable title for parent with children
+              <span className="flex-1 cursor-pointer">{item.title}</span>
+            ) : (
+              // Clickable link for items without children
+              <Link href={item.path} prefetch={true} className="flex-1">
+                {item.title}
+              </Link>
+            )}
             {item.items && item.items.length > 0 && (
-              <ChevronDownIcon
-                className={`h-5 transform transition-transform ${
-                  expandedItems.includes(item.title) ? 'rotate-180' : 'rotate-0'
-                }`}
-              />
+              <button
+                onClick={() => toggleItem(item.title)}
+                aria-label={`Toggle ${item.title}`}
+                className="flex items-center"
+              >
+                {expandedItems.includes(item.title) ? (
+                  <FaMinus className="h-5 w-5 text-black" />
+                ) : (
+                  <FaPlus className="h-5 w-5 text-black" />
+                )}
+              </button>
             )}
           </div>
+
+          {/* "Shop All" Link for Parent Categories */}
           {item.items && item.items.length > 0 && expandedItems.includes(item.title) && (
-            <div className="p-2">{renderMenuItems(item.items, level + 1)}</div>
+            <div className="border-b border-[#ededed] rounded-lg overflow-hidden">
+              <Link
+                href={item.path}
+                prefetch={true}
+                className="ml-6 mr-6 block border-b border-[#ededed] px-4 py-2 text-lg text-black hover:bg-gray-100"
+              >
+                Shop All {item.title}
+              </Link>
+              {renderMenuItems(item.items, level + 1)}
+            </div>
           )}
         </li>
       ))}
@@ -71,7 +91,7 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
   return (
     <>
       <button className="pt-[7px]" onClick={openMobileMenu} aria-label="Open mobile menu">
-        <FaBars className='text-[22px]' />
+        <FaBars className="text-[22px]" />
       </button>
       <Transition show={isOpen}>
         <Dialog onClose={closeMobileMenu} className="relative z-50">
@@ -95,21 +115,15 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
             leaveFrom="translate-x-0"
             leaveTo="translate-x-[-100%]"
           >
-            <Dialog.Panel className="fixed bottom-0 left-0 right-0 top-0 flex h-full w-full flex-col overflow-y-auto bg-white">
+            <Dialog.Panel className="fixed bottom-0 left-0 right-0 top-0 flex h-full w-full flex-col overflow-y-auto bg-white shadow-lg">
               <div>
-                <button
-                  className="mb-4 flex h-11 w-11 items-center justify-center text-black transition-colors"
-                  onClick={closeMobileMenu}
-                  aria-label="Close mobile menu"
-                >
-                  <XMarkIcon className="h-8" />
-                </button>
-
-                <div className="mb-4 w-full p-2">
-                  <Suspense fallback={<SearchSkeleton />}>
-                    <Search />
-                  </Suspense>
+                <div className="flex items-center justify-between border-b border-[#D8D8D8] px-4 py-5 shadow-sm">
+                  <div className="text-md font-bold">Menu</div>
+                  <button onClick={closeMobileMenu} aria-label="Close mobile menu">
+                    <FaXmark className="h-6 w-6" />
+                  </button>
                 </div>
+
                 {menu.length ? renderMenuItems(menu) : null}
               </div>
             </Dialog.Panel>
