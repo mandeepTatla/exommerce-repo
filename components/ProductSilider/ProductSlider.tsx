@@ -1,5 +1,6 @@
 'use client';
 
+import { useProject } from 'hooks/useProject';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRef, useState } from 'react';
@@ -12,41 +13,49 @@ import styles from './ProductSlider.module.css';
 const ProductSlider = ({ title, products }: { title: string; products: any[] }) => {
   const prevButtonRef = useRef<HTMLButtonElement>(null);
   const nextButtonRef = useRef<HTMLButtonElement>(null);
+  const { isDesktop } = useProject();
 
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
 
   if (!products || products.length === 0) return null;
 
+  const visibleSlides = products.length > 4 ? 4 : products.length;
+
+  const showControls = products.length > visibleSlides;
+
   return (
     <div className={`${styles.container} mx-auto mb-6 mt-6 max-w-[1500px]`}>
       <div className="flex items-center justify-between gap-4 pb-4">
-        <h2 className="text-customGray text-[1.2rem] font-bold">{title}</h2>
-        <div className="flex items-center gap-2">
-          <div>See more</div>
-          <button
-            ref={prevButtonRef}
-            disabled={isBeginning}
-            className={`rounded-full bg-gray-200 p-2 hover:bg-gray-300 ${
-              isBeginning ? 'cursor-not-allowed opacity-50' : ''
-            }`}
-            aria-label="Previous"
-          >
-            <FaAngleLeft />
-          </button>
-          <button
-            ref={nextButtonRef}
-            disabled={isEnd}
-            className={`rounded-full bg-gray-200 p-2 hover:bg-gray-300 ${
-              isEnd ? 'cursor-not-allowed opacity-50' : ''
-            }`}
-            aria-label="Next"
-          >
-            <FaAngleRight />
-          </button>
-        </div>
+        <h2 className="text-[1.2rem] font-bold text-customGray">{title}</h2>
+        {showControls && (
+          <div className="flex items-center gap-2">
+            <div>See more</div>
+            <button
+              ref={prevButtonRef}
+              disabled={isBeginning}
+              className={`rounded-full bg-gray-200 p-2 hover:bg-gray-300 ${
+                isBeginning ? 'cursor-not-allowed opacity-50' : ''
+              }`}
+              aria-label="Previous"
+            >
+              <FaAngleLeft />
+            </button>
+            <button
+              ref={nextButtonRef}
+              disabled={isEnd}
+              className={`rounded-full bg-gray-200 p-2 hover:bg-gray-300 ${
+                isEnd ? 'cursor-not-allowed opacity-50' : ''
+              }`}
+              aria-label="Next"
+            >
+              <FaAngleRight />
+            </button>
+          </div>
+        )}
       </div>
       <Swiper
+        spaceBetween={isDesktop ? 30 : 15}
         modules={[Pagination, A11y, Navigation]}
         navigation={{
           prevEl: prevButtonRef.current,
