@@ -100,7 +100,7 @@ const ProductSlider = ({ title, products }: { title: string; products: any[] }) 
                   src={product.featuredImage?.url}
                   width={255}
                   height={255}
-                  className="bg-white-200 aspect-square w-full rounded-md object-contain group-hover:opacity-75"
+                  className="bg-white-200 aspect-square w-full rounded-md object-contain group-hover:opacity-75 bg-[#f5f5f5]"
                 />
                 {/* Product Details */}
                 <div className="pb-4 pt-4 text-center">

@@ -26,7 +26,7 @@ export default function ProductCard(props: Products) {
                 src={product.featuredImage?.url}
                 width={255}
                 height={255}
-                className="bg-white-200 aspect-square rounded-md object-contain group-hover:opacity-75"
+                className="bg-white-200 aspect-square rounded-md object-contain group-hover:opacity-75 bg-[#f5f5f5]"
               />
 
               <div className="pb-4 pt-10 text-center">

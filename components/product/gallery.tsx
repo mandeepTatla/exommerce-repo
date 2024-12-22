@@ -21,7 +21,7 @@ export function Gallery({ images }: { images: { src: string; altText: string }[]
       <div className="relative aspect-square h-full max-h-[550px] w-full overflow-hidden">
         {images[imageIndex] && (
           <Image
-            className="h-full w-full object-contain"
+            className="h-full w-full bg-[#f5f5f5] object-contain"
             fill
             sizes="(min-width: 1024px) 66vw, 100vw"
             alt={images[imageIndex]?.altText as string}
@@ -60,7 +60,7 @@ export function Gallery({ images }: { images: { src: string; altText: string }[]
       </div>
 
       {images.length > 1 ? (
-        <ul className="my-12 flex items-center justify-center gap-2 py-1 lg:mb-0">
+        <ul className="my-2 flex items-center gap-2 py-1 lg:mb-0">
           {images.map((image, index) => {
             const isActive = index === imageIndex;
 

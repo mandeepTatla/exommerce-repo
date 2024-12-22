@@ -38,5 +38,5 @@ export function ShortProductDescription({ product }: { product: any }) {
     }
   };
 
-  return <div>{renderRichTextContent(parsedValue)}</div>;
+  return <div className="py-1 text-1xl">{renderRichTextContent(parsedValue)}</div>;
 }
