@@ -6,7 +6,6 @@ const { SITE_NAME } = process.env;
 export default async function Footer() {
   const currentYear = new Date().getFullYear();
   const copyrightDate = 2023 + (currentYear > 2023 ? `-${currentYear}` : '');
-  const skeleton = 'w-full h-6 animate-pulse rounded bg-neutral-200';
   const menu = await getMenu('next-js-frontend-footer-menu');
   const copyrightName = SITE_NAME || '';
 
@@ -27,7 +26,7 @@ export default async function Footer() {
           <div>
             <h3 className="text-md/10 font-semibold text-white">Subscribe to our newsletter</h3>
             <p className="text-md/5 mt-2 text-gray-300">
-              The latest news, articles, and resources, sent to your inbox weekly.
+              Get notified about latest products, discounts, announcements and articles.
             </p>
           </div>
           <SubscribeForm />
