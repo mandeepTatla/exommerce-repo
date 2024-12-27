@@ -1,4 +1,4 @@
-:root {
+:global(:root) {
   --swiper-navigation-size: 20px;
 }
 
