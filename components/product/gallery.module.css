@@ -1,7 +1,3 @@
-:global(:root) {
-  --swiper-navigation-size: 20px;
-}
-
 :global(.swiper-pagination-bullets) {
   background: rgba(255, 255, 255, 0.7);
   width: auto !important;

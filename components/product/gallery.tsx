@@ -13,6 +13,11 @@ export function Gallery({ images }: { images: { src: string; altText: string }[]
   return (
     <div className="border-grey-200 relative flex aspect-square h-full max-h-[644px] w-full items-center justify-center overflow-hidden rounded-lg border bg-white">
       <Swiper
+        style={
+          {
+            '--swiper-navigation-size': '20px'
+          } as React.CSSProperties
+        }
         modules={[Autoplay, Navigation, Pagination]}
         autoplay={{
           delay: 4000,
