@@ -18,23 +18,23 @@ button {
   background: rgba(255, 255, 255, 0.7);
   width: auto !important;
   padding: 8px;
-  position: absolute;
+  position: absolute !important;
   left: 50% !important;
-  transform: translateX(-50%);
+  transform: translateX(-50%) !important;
   border-radius: 50px;
   display: flex;
 }
 
 .swiper-pagination-bullet {
-  width: 0.375rem;
-  height: 0.375rem;
-  background: #918989;
+  width: 0.375rem !important;
+  height: 0.375rem !important;
+  background: #918989 !important;
   opacity: 1;
   transition: background 0.3s ease;
 }
 
 .swiper-pagination-bullet-active {
-  background: #2d3748;
+  background: #2d3748 !important;
 }
 
 @layer base {
