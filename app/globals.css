@@ -14,21 +14,27 @@ button {
   @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-50;
 }
 
+.swiper-pagination-bullets {
+  background: rgba(255, 255, 255, 0.7);
+  width: auto !important;
+  padding: 8px;
+  position: absolute;
+  left: 50% !important;
+  transform: translateX(-50%);
+  border-radius: 50px;
+  display: flex;
+}
+
 .swiper-pagination-bullet {
-  background-color: #a39a9a;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  opacity: 0.7;
-  transition:
-    opacity 0.3s ease,
-    transform 0.3s ease;
+  width: 0.375rem;
+  height: 0.375rem;
+  background: #918989;
+  opacity: 1;
+  transition: background 0.3s ease;
 }
 
 .swiper-pagination-bullet-active {
-  background-color: #3d3935; /* Custom active color */
-  transform: scale(1.25);
-  opacity: 1;
+  background: #2d3748;
 }
 
 @layer base {
