@@ -9,7 +9,7 @@ export default function PaymentAndTrust() {
   return (
     <div className="mt-6 space-y-6">
       {/* Payment Options */}
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center hidden">
         <div className="flex items-center justify-center space-x-6">
           <FaGooglePay className="text-4xl sm:text-5xl" />
           <FaApplePay className="text-4xl sm:text-5xl" />
