@@ -136,7 +136,7 @@ export default function CartModal() {
                                   className="z-30 ml-2 flex flex-row space-x-4"
                                 >
                                   <div className="flex flex-1 flex-col text-base">
-                                    <span className="leading-tight">
+                                    <span className="leading-tight line-clamp-2">
                                       {item.merchandise.product.title}
                                     </span>
                                     {item.merchandise.title !== DEFAULT_OPTION ? (
