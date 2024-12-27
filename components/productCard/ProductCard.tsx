@@ -14,7 +14,7 @@ export default function ProductCard(props: Products) {
         {props.products.map((product) => (
           <li
             key={product.id}
-            className="group relative border-b border-r border-t border-gray-200 p-4 sm:p-6"
+            className="group relative border-b border-r border-t border-gray-200 p-2 sm:p-6"
           >
             <Link
               className="relative inline-block h-full w-full"
@@ -30,7 +30,7 @@ export default function ProductCard(props: Products) {
               />
 
               <div className="pb-4 pt-10 text-center">
-                <h3 className="text-sm font-medium text-gray-900">{product.title}</h3>
+                <h3 className="text-sm font-medium text-gray-900 line-clamp-2">{product.title}</h3>
                 <div className="mt-4">
                   <Price
                     amount={product.priceRange.maxVariantPrice.amount}
