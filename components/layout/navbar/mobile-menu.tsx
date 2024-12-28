@@ -1,5 +1,4 @@
 'use client';
-
 import { Dialog, Transition } from '@headlessui/react';
 import { MegaMenu, Menu } from 'lib/shopify/types';
 import Link from 'next/link';
@@ -36,47 +35,39 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
     setIsOpen(false);
   }, [pathname, searchParams]);
 
-  // Render Menu Items - Non-clickable parent if it has children
+  // Render Menu Items - Entire row is clickable for toggling
   const renderMenuItems = (items: MegaMenu[], level = 0) => (
     <ul className={`pl-${level * 2 + 1} space-y-2`}>
       {items.map((item) => (
         <li key={item.title} className="flex flex-col">
           <div
-            className={`flex items-center justify-between border-b border-[#ededed] px-4 py-2 text-lg text-black hover:bg-gray-100 ${
+            className={`flex cursor-pointer items-center justify-between border-b border-[#ededed] px-4 py-2 text-lg text-black hover:bg-gray-100 ${
               level === 1 ? 'ml-6 mr-6' : ''
             }`}
+            onClick={() => toggleItem(item.title)} // Entire row triggers toggle
           >
             {item.items && item.items.length > 0 ? (
-              // Non-clickable title for parent with children
-              <span className="flex-1 cursor-pointer">{item.title}</span>
+              <span className="flex-1">{item.title}</span>
             ) : (
-              // Clickable link for items without children
               <Link href={item.path} prefetch={true} className="flex-1">
                 {item.title}
               </Link>
             )}
-            {item.items && item.items.length > 0 && (
-              <button
-                onClick={() => toggleItem(item.title)}
-                aria-label={`Toggle ${item.title}`}
-                className="flex items-center"
-              >
-                {expandedItems.includes(item.title) ? (
-                  <>
-                    {/* @ts-ignore */}
-                    <FaMinus className="h-5 w-5 text-black" />
-                  </>
-                ) : (
-                  <>
-                    {/* @ts-ignore */}
-                    <FaPlus className="h-5 w-5 text-black" />
-                  </>
-                )}
-              </button>
-            )}
+            {item.items &&
+              item.items.length > 0 &&
+              (expandedItems.includes(item.title) ? (
+                <>
+                  {/* @ts-ignore */}
+                  <FaMinus className="h-5 w-5 text-black" />
+                </>
+              ) : (
+                <>
+                  {/* @ts-ignore */}
+                  <FaPlus className="h-5 w-5 text-black" />
+                </>
+              ))}
           </div>
 
-          {/* "Shop All" Link for Parent Categories */}
           {item.items && item.items.length > 0 && expandedItems.includes(item.title) && (
             <div className="overflow-hidden rounded-lg border-b border-[#ededed]">
               <Link
