@@ -73,23 +73,31 @@ export const Search = () => {
       event.preventDefault();
       isEnterPressed.current = true;
       setShowResults(false);
+      document.body.classList.remove('dropdown-open');
       router.push(`/search?q=${query}`);
     }
   };
 
   const handleKeyUp = (event) => {
-    // Prevent showing dropdown if Enter was pressed
     if (event.key === 'Enter') {
       isEnterPressed.current = false;
       return;
     }
     setQuery(event.target.value);
     setShowResults(true);
+    document.body.classList.add('dropdown-open');
+  };
+
+  const handleBlur = () => {
+    setTimeout(() => {
+      setShowResults(false);
+      document.body.classList.remove('dropdown-open');
+    }, 200);
   };
 
   return (
     <InstantSearch indexName={indexName} searchClient={searchClient}>
-      <Configure hitsPerPage={6} />
+      <Configure hitsPerPage={8} />
       <div className={styles.searchWrapper}>
         <SearchBox
           placeholder="Search for Product ..."
@@ -99,11 +107,23 @@ export const Search = () => {
           }}
           onKeyUp={handleKeyUp}
           onKeyDown={handleKeyDown}
-          onBlur={() => setTimeout(() => setShowResults(false), 200)}
+          onBlur={handleBlur}
         />
 
         {showResults && (
           <div className={styles.dropdown}>
+            <div className={styles.dropdownHeader}>
+              <h3>SEARCH SUGGESTIONS</h3>
+              <button
+                onClick={() => {
+                  setShowResults(false);
+                  document.body.classList.remove('dropdown-open');
+                }}
+                className={styles.closeButton}
+              >
+                close
+              </button>
+            </div>
             <CustomHits query={query} />
           </div>
         )}

@@ -24,10 +24,10 @@
   background-color: white;
   border: 1px solid #ddd;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
   z-index: 1000;
   padding-top: 10px;
   max-height: 75vh;
+  overflow-y: auto;
 }
 
 .hitItem {
@@ -94,4 +94,44 @@
   display: flex;
   padding: 10px;
   justify-content: center;
+}
+
+/* Fullscreen dropdown for mobile */
+@media (max-width: 768px) {
+  .dropdown {
+    position: fixed;
+    top: 143px;
+    left: 0;
+    width: 100vw;
+    height: calc(100vh - 143px);
+    max-height: none;
+    z-index: 1100;
+    border: none;
+    box-shadow: none;
+    padding: 15px;
+    overflow-y: auto;
+  }
+}
+
+.dropdownHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+.dropdownHeader h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: #333;
+  cursor: pointer;
+  text-decoration: underline;
 }

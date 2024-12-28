@@ -37,6 +37,12 @@
   display: none !important;
 }
 
+@media (max-width: 768px) {
+  body.dropdown-open {
+    overflow: hidden;
+  }
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
