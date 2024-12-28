@@ -111,6 +111,11 @@
     padding: 15px;
     overflow-y: auto;
   }
+
+  .searchWrapper {
+    width: 100%;
+    max-width: 100%;
+  }
 }
 
 .dropdownHeader {

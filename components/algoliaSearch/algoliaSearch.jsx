@@ -95,6 +95,11 @@ export const Search = () => {
     }, 200);
   };
 
+  const handleFocus = () => {
+    setShowResults(true);
+    document.body.classList.add('dropdown-open');
+  };
+
   return (
     <InstantSearch indexName={indexName} searchClient={searchClient}>
       <Configure hitsPerPage={8} />
@@ -105,6 +110,7 @@ export const Search = () => {
             root: styles.searchRoot,
             input: styles.searchInput
           }}
+          onFocus={handleFocus}
           onKeyUp={handleKeyUp}
           onKeyDown={handleKeyDown}
           onBlur={handleBlur}
