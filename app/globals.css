@@ -8,12 +8,6 @@
   }
 }
 
-a,
-input,
-button {
-  @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-50;
-}
-
 .swiper-pagination-bullets {
   background: rgba(255, 255, 255, 0.7);
   width: auto !important;
@@ -35,6 +29,12 @@ button {
 
 .swiper-pagination-bullet-active {
   background: #2d3748 !important;
+}
+
+.ais-SearchBox-reset,
+.ais-SearchBox-submit,
+.ais-SearchBox-loadingIndicator {
+  display: none !important;
 }
 
 @layer base {

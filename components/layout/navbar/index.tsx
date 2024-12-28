@@ -1,3 +1,4 @@
+import { Search } from 'components/algoliaSearch/algoliaSearch';
 import CartModal from 'components/cart/modal';
 import { getMenu } from 'lib/shopify';
 import Link from 'next/link';
@@ -5,7 +6,6 @@ import { Suspense } from 'react';
 import DesktopMenu from './desktop-menu';
 import DynamicMessages from './DynamicMessages';
 import MobileMenu from './mobile-menu';
-import Search, { SearchSkeleton } from './search';
 
 const { SITE_NAME } = process.env;
 
@@ -37,9 +37,7 @@ export async function Navbar() {
             </Link>
           </div>
           <div className="hidden justify-center md:flex md:w-1/3">
-            <Suspense fallback={<SearchSkeleton />}>
-              <Search />
-            </Suspense>
+            <Search />
           </div>
           <div className="flex justify-end md:w-1/3">
             <CartModal />
@@ -47,9 +45,7 @@ export async function Navbar() {
         </div>
       </nav>
       <div className="block w-full p-[0rem_1rem_0.5rem] md:hidden md:p-0">
-        <Suspense fallback={<SearchSkeleton />}>
-          <Search />
-        </Suspense>
+        <Search />
       </div>
 
       <DesktopMenu menu={menu} />

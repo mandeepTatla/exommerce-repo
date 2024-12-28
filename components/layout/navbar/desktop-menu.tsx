@@ -19,7 +19,7 @@ export default function DesktopMenu({ menu }: { menu: MegaMenu[] }) {
             onMouseEnter={() => handleMouseEnter(item.title)}
             onMouseLeave={handleMouseLeave}
           >
-            <Link href={item.path} className="text-lg font-medium hover:underline">
+            <Link href={item.path} className="text-lg font-medium hover:underline capitalize">
               {item.title}
             </Link>
             {item.items && item.items.length > 0 && hoveredMenu === item.title && (
