@@ -32,9 +32,11 @@ const AccordionTrigger = React.forwardRef<
       {children}
       <div className="ml-2 flex items-center">
         <AccordionPrimitive.Trigger asChild>
-          <FaPlus className="h-4 w-4 text-muted-foreground data-[state=open]:hidden " />
+          {/* @ts-expect-error */}
+          <FaPlus size={20} className="h-4 w-4 text-muted-foreground data-[state=open]:hidden " />
         </AccordionPrimitive.Trigger>
         <AccordionPrimitive.Trigger asChild>
+          {/* @ts-expect-error */}
           <FaMinus className="h-4 w-4 text-muted-foreground data-[state=closed]:hidden" />
         </AccordionPrimitive.Trigger>
       </div>

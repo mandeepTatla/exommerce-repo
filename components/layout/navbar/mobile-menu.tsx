@@ -62,9 +62,15 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
                 className="flex items-center"
               >
                 {expandedItems.includes(item.title) ? (
-                  <FaMinus className="h-5 w-5 text-black" />
+                  <>
+                    {/* @ts-ignore */}
+                    <FaMinus className="h-5 w-5 text-black" />
+                  </>
                 ) : (
-                  <FaPlus className="h-5 w-5 text-black" />
+                  <>
+                    {/* @ts-ignore */}
+                    <FaPlus className="h-5 w-5 text-black" />
+                  </>
                 )}
               </button>
             )}
@@ -72,7 +78,7 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
 
           {/* "Shop All" Link for Parent Categories */}
           {item.items && item.items.length > 0 && expandedItems.includes(item.title) && (
-            <div className="border-b border-[#ededed] rounded-lg overflow-hidden">
+            <div className="overflow-hidden rounded-lg border-b border-[#ededed]">
               <Link
                 href={item.path}
                 prefetch={true}
@@ -91,6 +97,7 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
   return (
     <>
       <button className="pt-[7px]" onClick={openMobileMenu} aria-label="Open mobile menu">
+        {/* @ts-ignore */}
         <FaBars className="text-[22px]" />
       </button>
       <Transition show={isOpen}>
@@ -120,6 +127,7 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
                 <div className="flex items-center justify-between border-b border-[#D8D8D8] px-4 py-5 shadow-sm">
                   <div className="text-md font-bold">Menu</div>
                   <button onClick={closeMobileMenu} aria-label="Close mobile menu">
+                    {/* @ts-ignore */}
                     <FaXmark className="h-6 w-6" />
                   </button>
                 </div>

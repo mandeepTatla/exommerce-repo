@@ -39,6 +39,7 @@ const ProductSlider = ({ title, products }: { title: string; products: any[] }) 
               }`}
               aria-label="Previous"
             >
+              {/* @ts-expect-error */}
               <FaAngleLeft />
             </button>
             <button
@@ -49,6 +50,7 @@ const ProductSlider = ({ title, products }: { title: string; products: any[] }) 
               }`}
               aria-label="Next"
             >
+              {/* @ts-expect-error */}
               <FaAngleRight />
             </button>
           </div>
@@ -100,11 +102,13 @@ const ProductSlider = ({ title, products }: { title: string; products: any[] }) 
                   src={product.featuredImage?.url}
                   width={255}
                   height={255}
-                  className="bg-white-200 aspect-square w-full rounded-md object-contain group-hover:opacity-75 bg-[#f5f5f5]"
+                  className="bg-white-200 aspect-square w-full rounded-md bg-[#f5f5f5] object-contain group-hover:opacity-75"
                 />
                 {/* Product Details */}
                 <div className="pb-4 pt-4 text-center">
-                  <h3 className="h-[40px] text-sm font-medium text-gray-900 line-clamp-2">{product.title}</h3>
+                  <h3 className="line-clamp-2 h-[40px] text-sm font-medium text-gray-900">
+                    {product.title}
+                  </h3>
                   <div className="mt-4">
                     <Price
                       amount={product.priceRange.maxVariantPrice.amount}
