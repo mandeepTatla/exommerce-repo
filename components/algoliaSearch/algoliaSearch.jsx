@@ -92,7 +92,7 @@ export const Search = () => {
     setTimeout(() => {
       setShowResults(false);
       document.body.classList.remove('dropdown-open');
-      
+
       // Restore viewport settings after blur
       const viewport = document.querySelector('meta[name=viewport]');
       viewport.setAttribute('content', 'width=device-width, initial-scale=1');
@@ -100,8 +100,6 @@ export const Search = () => {
   };
 
   const handleFocus = () => {
-    setShowResults(true);
-    document.body.classList.add('dropdown-open');
     const viewport = document.querySelector('meta[name=viewport]');
     viewport.setAttribute(
       'content',
