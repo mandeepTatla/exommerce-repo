@@ -35,6 +35,12 @@ export function VariantSelector({
     )
   }));
 
+  const isValidCSSColor = (value: string) => {
+    const s = new Option().style;
+    s.color = value;
+    return s.color !== '';
+  };
+
   const handleSelection = (name: string, value: string) => {
     updateOption(name, value);
 
@@ -45,6 +51,7 @@ export function VariantSelector({
 
   return options.map((option) => {
     const selectedValue = state[option.name.toLowerCase()];
+    const isColorOption = /colou?r/i.test(option.name);
 
     return (
       <div key={option.id}>
@@ -83,25 +90,32 @@ export function VariantSelector({
               // The option is active if it's in the selected options
               const isActive = state[optionNameLowerCase] === value;
 
+              const isCSSColor = isValidCSSColor(value);
+
+              const showColorSwatches = isCSSColor && isColorOption;
+
               return (
                 <button
                   key={value}
+                  type="button"
                   aria-disabled={!isAvailableForSale}
                   disabled={!isAvailableForSale}
                   onClick={() => handleSelection(option.name, value)}
                   title={`${option.name} ${value}${!isAvailableForSale ? ' (Out of Stock)' : ''}`}
                   className={clsx(
-                    'flex min-w-[48px] items-center justify-center rounded-[2px] border bg-neutral-100 px-2 py-1 text-sm',
+                    'flex items-center justify-center rounded-[2px] border bg-neutral-100 px-2 py-1 text-sm',
                     {
                       'cursor-default ring-2 ring-black': isActive,
                       'ring-1 ring-transparent transition duration-300 ease-in-out hover:ring-blue-600':
                         !isActive && isAvailableForSale,
                       'relative z-10 cursor-not-allowed overflow-hidden bg-neutral-100 text-neutral-500 ring-1 ring-neutral-300 before:absolute before:inset-x-0 before:-z-10 before:h-px before:-rotate-45 before:bg-neutral-300 before:transition-transform':
                         !isAvailableForSale
-                    }
+                    },
+                   showColorSwatches ? 'h-[34px] w-[34px] rounded-full p-2' : 'min-w-[48px]'
                   )}
+                  style={showColorSwatches ? { backgroundColor: value } : {}}
                 >
-                  {value}
+                  {!showColorSwatches && value}
                 </button>
               );
             })}
