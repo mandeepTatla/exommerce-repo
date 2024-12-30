@@ -36,6 +36,9 @@ export function VariantSelector({
   }));
 
   const isValidCSSColor = (value: string) => {
+    if (typeof window === 'undefined') {
+      return false;
+    }
     const s = new Option().style;
     s.color = value;
     return s.color !== '';
@@ -111,7 +114,7 @@ export function VariantSelector({
                       'relative z-10 cursor-not-allowed overflow-hidden bg-neutral-100 text-neutral-500 ring-1 ring-neutral-300 before:absolute before:inset-x-0 before:-z-10 before:h-px before:-rotate-45 before:bg-neutral-300 before:transition-transform':
                         !isAvailableForSale
                     },
-                   showColorSwatches ? 'h-[34px] w-[34px] rounded-full p-2' : 'min-w-[48px]'
+                    showColorSwatches ? 'h-[34px] w-[34px] rounded-full p-2' : 'min-w-[48px]'
                   )}
                   style={showColorSwatches ? { backgroundColor: value } : {}}
                 >
