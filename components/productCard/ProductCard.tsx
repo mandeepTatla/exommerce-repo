@@ -26,15 +26,15 @@ export default function ProductCard(props: Products) {
                 src={product.featuredImage?.url}
                 width={255}
                 height={255}
-                className="bg-white-200 aspect-square group-hover:opacity-75"
+                className="bg-white-200 aspect-square object-contain group-hover:opacity-75"
               />
 
               <div className="pb-4 pt-10 text-center">
-                <h3 className="text-sm font-medium text-gray-900 line-clamp-2">{product.title}</h3>
+                <h3 className="line-clamp-2 text-sm font-medium text-gray-900">{product.title}</h3>
                 <div className="mt-4">
                   <Price
-                    amount={product.priceRange.maxVariantPrice.amount}
-                    currencyCode={product.priceRange.maxVariantPrice.currencyCode}
+                    amount={product.priceRange.minVariantPrice.amount}
+                    currencyCode={product.priceRange.minVariantPrice.currencyCode}
                   />
                 </div>
               </div>

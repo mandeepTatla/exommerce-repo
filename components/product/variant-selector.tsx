@@ -35,9 +35,17 @@ export function VariantSelector({
     )
   }));
 
+  const handleSelection = (name: string, value: string) => {
+    updateOption(name, value);
+
+    // Update the URL without price
+    const { price, ...filteredState } = { ...state, [name.toLowerCase()]: value };
+    updateURL(filteredState);
+  };
+
   return options.map((option) => (
-    <form key={option.id}>
-      <dl className="py-6 border-t border-b">
+    <div key={option.id}>
+      <dl className="border-b border-t py-6">
         <dt className="mb-4 text-[0.9rem] tracking-wide">Select a {option.name} :</dt>
         <dd className="flex flex-wrap gap-3">
           {option.values.map((value) => {
@@ -63,13 +71,10 @@ export function VariantSelector({
 
             return (
               <button
-                formAction={() => {
-                  const newState = updateOption(optionNameLowerCase, value);
-                  updateURL(newState);
-                }}
                 key={value}
                 aria-disabled={!isAvailableForSale}
                 disabled={!isAvailableForSale}
+                onClick={() => handleSelection(option.name, value)}
                 title={`${option.name} ${value}${!isAvailableForSale ? ' (Out of Stock)' : ''}`}
                 className={clsx(
                   'flex min-w-[48px] items-center justify-center rounded-[2px] border bg-neutral-100 px-2 py-1 text-sm',
@@ -88,6 +93,6 @@ export function VariantSelector({
           })}
         </dd>
       </dl>
-    </form>
+    </div>
   ));
 }

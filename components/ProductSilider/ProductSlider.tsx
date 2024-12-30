@@ -106,13 +106,13 @@ const ProductSlider = ({ title, products }: { title: string; products: any[] }) 
                 />
                 {/* Product Details */}
                 <div className="pb-4 pt-4 text-center">
-                  <h3 className="line-clamp-2 h-[40px] text-sm font-medium text-gray-900">
+                  <h3 className="line-clamp-2 h-[40px] text-sm font-medium text-gray-900 object-contain">
                     {product.title}
                   </h3>
                   <div className="mt-4">
                     <Price
-                      amount={product.priceRange.maxVariantPrice.amount}
-                      currencyCode={product.priceRange.maxVariantPrice.currencyCode}
+                      amount={product.priceRange.minVariantPrice.amount}
+                      currencyCode={product.priceRange.minVariantPrice.currencyCode}
                     />
                   </div>
                 </div>

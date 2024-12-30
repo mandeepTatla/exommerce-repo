@@ -1,24 +1,33 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import React, { createContext, useContext, useMemo, useOptimistic } from 'react';
+import React, { createContext, useContext, useMemo, useState } from 'react';
 
 type ProductState = {
   [key: string]: string;
 } & {
   image?: string;
+  price?: string;
 };
 
 type ProductContextType = {
   state: ProductState;
-  updateOption: (name: string, value: string) => ProductState;
-  updateImage: (index: string) => ProductState;
+  updateOption: (name: string, value: string) => void;
+  updateImage: (index: string) => void;
 };
 
 const ProductContext = createContext<ProductContextType | undefined>(undefined);
 
-export function ProductProvider({ children }: { children: React.ReactNode }) {
+export function ProductProvider({
+  children,
+  initialVariants
+}: {
+  children: React.ReactNode;
+  initialVariants: any;
+}) {
   const searchParams = useSearchParams();
+
+  const [variants] = useState(initialVariants);
 
   const getInitialState = () => {
     const params: ProductState = {};
@@ -28,24 +37,28 @@ export function ProductProvider({ children }: { children: React.ReactNode }) {
     return params;
   };
 
-  const [state, setOptimisticState] = useOptimistic(
-    getInitialState(),
-    (prevState: ProductState, update: ProductState) => ({
-      ...prevState,
-      ...update
-    })
-  );
+  const [state, setState] = useState<ProductState>(getInitialState());
+
+  console.log(state, 'state');
 
   const updateOption = (name: string, value: string) => {
-    const newState = { [name]: value };
-    setOptimisticState(newState);
-    return { ...state, ...newState };
+    const newState = { ...state, [name.toLowerCase()]: value };
+
+    // Attempt to find the matching variant
+    const selectedVariant = variants.find((variant: any) =>
+      variant.selectedOptions.every((opt: any) => newState[opt.name.toLowerCase()] === opt.value)
+    );
+
+    if (selectedVariant) {
+      newState.price = selectedVariant.price.amount;
+    }
+
+    setState(newState);
   };
 
   const updateImage = (index: string) => {
     const newState = { image: index };
-    setOptimisticState(newState);
-    return { ...state, ...newState };
+    setState(newState);
   };
 
   const value = useMemo(
@@ -73,7 +86,8 @@ export function useUpdateURL() {
 
   return (state: ProductState) => {
     const newParams = new URLSearchParams(window.location.search);
-    Object.entries(state).forEach(([key, value]) => {
+    const { price, ...urlState } = state;
+    Object.entries(urlState).forEach(([key, value]) => {
       newParams.set(key, value);
     });
     router.push(`?${newParams.toString()}`, { scroll: false });

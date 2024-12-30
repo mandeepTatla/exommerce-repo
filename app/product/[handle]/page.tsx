@@ -72,7 +72,7 @@ export default async function ProductPage(props: { params: Promise<{ handle: str
   };
 
   return (
-    <ProductProvider>
+    <ProductProvider initialVariants={product.variants}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -88,7 +88,7 @@ export default async function ProductPage(props: { params: Promise<{ handle: str
               }
             >
               <Gallery
-                images={product.images.slice(0, 5).map((image: ImageTypes) => ({
+                images={product.images.map((image: ImageTypes) => ({
                   src: image.url,
                   altText: image.altText
                 }))}

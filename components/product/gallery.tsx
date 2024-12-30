@@ -36,7 +36,7 @@ export function Gallery({ images }: { images: { src: string; altText: string }[]
         {images.map((image, index) => (
           <SwiperSlide key={index}>
             <Image
-              className="max-h-full max-w-full"
+              className="max-h-full max-w-full object-contain"
               fill
               sizes="(min-width: 1024px) 66vw, 100vw"
               alt={image.altText}
