@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import React, { createContext, useContext, useMemo, useState } from 'react';
+import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
 type ProductState = {
   [key: string]: string;
@@ -27,6 +27,8 @@ export function ProductProvider({
 }) {
   const searchParams = useSearchParams();
 
+  const router = useRouter();
+
   const [variants] = useState(initialVariants);
 
   const getInitialState = () => {
@@ -38,8 +40,6 @@ export function ProductProvider({
   };
 
   const [state, setState] = useState<ProductState>(getInitialState());
-
-  console.log(state, 'state');
 
   const updateOption = (name: string, value: string) => {
     const newState = { ...state, [name.toLowerCase()]: value };
@@ -60,6 +60,27 @@ export function ProductProvider({
     const newState = { image: index };
     setState(newState);
   };
+
+  useEffect(() => {
+    const firstAvailableVariant = variants.find((variant: any) => variant.availableForSale);
+
+    if (firstAvailableVariant) {
+      const selectedOptions = firstAvailableVariant.selectedOptions.reduce(
+        (acc: ProductState, option: any) => {
+          acc[option.name.toLowerCase()] = option.value;
+          return acc;
+        },
+        {}
+      );
+
+      // Update state with selected options
+      setState((prev) => ({
+        ...prev,
+        ...selectedOptions,
+        price: firstAvailableVariant.price.amount
+      }));
+    }
+  }, [variants]);
 
   const value = useMemo(
     () => ({
@@ -90,6 +111,6 @@ export function useUpdateURL() {
     Object.entries(urlState).forEach(([key, value]) => {
       newParams.set(key, value);
     });
-    router.push(`?${newParams.toString()}`, { scroll: false });
+    router.replace(`?${newParams.toString()}`, { scroll: false });
   };
 }
