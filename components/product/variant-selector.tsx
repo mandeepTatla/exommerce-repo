@@ -43,56 +43,71 @@ export function VariantSelector({
     updateURL(filteredState);
   };
 
-  return options.map((option) => (
-    <div key={option.id}>
-      <dl className="border-b border-t py-6">
-        <dt className="mb-4 text-[0.9rem] tracking-wide">Select a {option.name} :</dt>
-        <dd className="flex flex-wrap gap-3">
-          {option.values.map((value) => {
-            const optionNameLowerCase = option.name.toLowerCase();
+  return options.map((option) => {
+    const selectedValue = state[option.name.toLowerCase()];
 
-            // Base option params on current selectedOptions so we can preserve any other param state.
-            const optionParams = { ...state, [optionNameLowerCase]: value };
+    return (
+      <div key={option.id}>
+        <dl className="border-b border-t py-6">
+          <dt className="mb-4 text-[0.9rem] tracking-wide">
+            Select a {option.name}:{' '}
+            <span
+              className={clsx('font-semibold', {
+                'text-black-600': selectedValue,
+                'text-red-600': !selectedValue
+              })}
+            >
+              {selectedValue || `Select a ${option.name}`}
+            </span>
+          </dt>
+          <dd className="flex flex-wrap gap-3">
+            {option.values.map((value) => {
+              const optionNameLowerCase = option.name.toLowerCase();
 
-            // Filter out invalid options and check if the option combination is available for sale.
-            const filtered = Object.entries(optionParams).filter(([key, value]) =>
-              options.find(
-                (option) => option.name.toLowerCase() === key && option.values.includes(value)
-              )
-            );
-            const isAvailableForSale = combinations.find((combination) =>
-              filtered.every(
-                ([key, value]) => combination[key] === value && combination.availableForSale
-              )
-            );
+              // Base option params on current selectedOptions so we can preserve any other param state.
+              const optionParams = { ...state, [optionNameLowerCase]: value };
 
-            // The option is active if it's in the selected options.
-            const isActive = state[optionNameLowerCase] === value;
+              // Filter out invalid options and check if the option combination is available for sale
+              const filtered = Object.entries(optionParams).filter(([key, value]) =>
+                options.find(
+                  (option) => option.name.toLowerCase() === key && option.values.includes(value)
+                )
+              );
 
-            return (
-              <button
-                key={value}
-                aria-disabled={!isAvailableForSale}
-                disabled={!isAvailableForSale}
-                onClick={() => handleSelection(option.name, value)}
-                title={`${option.name} ${value}${!isAvailableForSale ? ' (Out of Stock)' : ''}`}
-                className={clsx(
-                  'flex min-w-[48px] items-center justify-center rounded-[2px] border bg-neutral-100 px-2 py-1 text-sm',
-                  {
-                    'cursor-default ring-2 ring-black': isActive,
-                    'ring-1 ring-transparent transition duration-300 ease-in-out hover:ring-blue-600':
-                      !isActive && isAvailableForSale,
-                    'relative z-10 cursor-not-allowed overflow-hidden bg-neutral-100 text-neutral-500 ring-1 ring-neutral-300 before:absolute before:inset-x-0 before:-z-10 before:h-px before:-rotate-45 before:bg-neutral-300 before:transition-transform':
-                      !isAvailableForSale
-                  }
-                )}
-              >
-                {value}
-              </button>
-            );
-          })}
-        </dd>
-      </dl>
-    </div>
-  ));
+              const isAvailableForSale = combinations.find((combination) =>
+                filtered.every(
+                  ([key, value]) => combination[key] === value && combination.availableForSale
+                )
+              );
+
+              // The option is active if it's in the selected options
+              const isActive = state[optionNameLowerCase] === value;
+
+              return (
+                <button
+                  key={value}
+                  aria-disabled={!isAvailableForSale}
+                  disabled={!isAvailableForSale}
+                  onClick={() => handleSelection(option.name, value)}
+                  title={`${option.name} ${value}${!isAvailableForSale ? ' (Out of Stock)' : ''}`}
+                  className={clsx(
+                    'flex min-w-[48px] items-center justify-center rounded-[2px] border bg-neutral-100 px-2 py-1 text-sm',
+                    {
+                      'cursor-default ring-2 ring-black': isActive,
+                      'ring-1 ring-transparent transition duration-300 ease-in-out hover:ring-blue-600':
+                        !isActive && isAvailableForSale,
+                      'relative z-10 cursor-not-allowed overflow-hidden bg-neutral-100 text-neutral-500 ring-1 ring-neutral-300 before:absolute before:inset-x-0 before:-z-10 before:h-px before:-rotate-45 before:bg-neutral-300 before:transition-transform':
+                        !isAvailableForSale
+                    }
+                  )}
+                >
+                  {value}
+                </button>
+              );
+            })}
+          </dd>
+        </dl>
+      </div>
+    );
+  });
 }
