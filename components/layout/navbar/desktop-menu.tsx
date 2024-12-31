@@ -12,9 +12,9 @@ export default function DesktopMenu({ menu }: { menu: MegaMenu[] }) {
 
   return (
     <nav className="hidden items-center justify-center md:flex">
-      <ul className="relative flex space-x-6">
+      <ul className="flex space-x-6">
         {menu.map((item) => (
-          <li
+          <li className="relative"
             key={item.title}
             onMouseEnter={() => handleMouseEnter(item.title)}
             onMouseLeave={handleMouseLeave}
@@ -23,7 +23,7 @@ export default function DesktopMenu({ menu }: { menu: MegaMenu[] }) {
               {item.title}
             </Link>
             {item.items && item.items.length > 0 && hoveredMenu === item.title && (
-              <ul className="absolute left-0 top-full z-50 h-[350px] w-80 border border-gray-200 bg-white px-4 pt-4 text-black shadow-lg">
+              <ul className="absolute left-[-70px] top-full z-50 h-[350px] w-80 border border-gray-200 bg-white px-4 pt-4 text-black shadow-lg">
                 {item.items.map((nestedItem) => (
                   <li
                     key={nestedItem.title}
