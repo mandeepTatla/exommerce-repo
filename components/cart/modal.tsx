@@ -109,25 +109,27 @@ export default function CartModal() {
                         );
 
                         return (
-                          <li
-                            key={i}
-                            className="flex w-full flex-col border-b border-neutral-300"
-                          >
+                          <li key={i} className="flex w-full flex-col border-b border-neutral-300">
                             <div className="relative flex w-full flex-row justify-between px-1 py-4">
                               <div className="absolute z-40 -ml-1 -mt-2">
                                 <DeleteItemButton item={item} optimisticUpdate={updateCartItem} />
                               </div>
                               <div className="flex flex-row">
-                                <div className="relative h-16 w-16 overflow-hidden rounded-md border border-neutral-300 bg-neutral-300">
+                                <div className="relative min-h-[64px] min-w-[64px] h-[64px] overflow-hidden rounded-md border border-neutral-300">
                                   <Image
-                                    className="h-full w-full object-cover"
+                                    className="h-full w-full object-contain"
                                     width={64}
                                     height={64}
                                     alt={
-                                      item.merchandise.product.featuredImage.altText ||
-                                      item.merchandise.product.title
+                                      item.merchandise.image?.altText
+                                        ? item.merchandise.product.featuredImage?.altText
+                                        : item.merchandise.product.title
                                     }
-                                    src={item.merchandise.product.featuredImage.url}
+                                    src={
+                                      item.merchandise.image?.url
+                                        ? item.merchandise.image?.url
+                                        : item.merchandise.product.featuredImage?.url
+                                    }
                                   />
                                 </div>
                                 <Link
@@ -136,7 +138,7 @@ export default function CartModal() {
                                   className="z-30 ml-2 flex flex-row space-x-4"
                                 >
                                   <div className="flex flex-1 flex-col text-base">
-                                    <span className="leading-tight line-clamp-2">
+                                    <span className="line-clamp-2 leading-tight">
                                       {item.merchandise.product.title}
                                     </span>
                                     {item.merchandise.title !== DEFAULT_OPTION ? (
@@ -149,7 +151,7 @@ export default function CartModal() {
                               </div>
                               <div className="flex h-16 flex-col justify-between">
                                 <Price
-                                  className="flex justify-end space-y-2 text-right font-medium text-md"
+                                  className="text-md flex justify-end space-y-2 text-right font-medium"
                                   amount={item.cost.totalAmount.amount}
                                   currencyCode={item.cost.totalAmount.currencyCode}
                                 />
@@ -176,7 +178,7 @@ export default function CartModal() {
                   </ul>
                   <div className="py-4 text-sm text-neutral-500">
                     <div className="mb-3 flex items-center justify-between border-b border-neutral-200 pb-1 pt-1">
-                      <p className='text-lg text-black'>Subtotal</p>
+                      <p className="text-lg text-black">Subtotal</p>
                       <Price
                         className="text-right text-base text-black"
                         amount={cart.cost.totalAmount.amount}
