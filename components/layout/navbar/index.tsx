@@ -36,7 +36,7 @@ export async function Navbar() {
               <div className="ml-2 flex-none text-lg font-medium uppercase">{SITE_NAME}</div>
             </Link>
           </div>
-          <div className="hidden justify-center md:flex md:w-1/3">
+          <div style={{ minHeight: '46px' }} className="hidden justify-center md:flex md:w-1/3">
             <Search />
           </div>
           <div className="flex justify-end md:w-1/3">
@@ -44,7 +44,10 @@ export async function Navbar() {
           </div>
         </div>
       </nav>
-      <div className="block w-full p-[0rem_1rem_0.5rem] md:hidden md:p-0">
+      <div
+        style={{ minHeight: '54px' }}
+        className="block w-full p-[0rem_1rem_0.5rem] md:hidden md:p-0"
+      >
         <Search />
       </div>
 
