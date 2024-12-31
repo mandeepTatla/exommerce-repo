@@ -35,15 +35,6 @@ export function VariantSelector({
     )
   }));
 
-  const isValidCSSColor = (value: string) => {
-    if (typeof window === 'undefined') {
-      return false;
-    }
-    const s = new Option().style;
-    s.color = value;
-    return s.color !== '';
-  };
-
   const handleSelection = (name: string, value: string) => {
     updateOption(name, value);
 
@@ -93,9 +84,7 @@ export function VariantSelector({
               // The option is active if it's in the selected options
               const isActive = state[optionNameLowerCase] === value;
 
-              const isCSSColor = isValidCSSColor(value);
-
-              const showColorSwatches = isCSSColor && isColorOption;
+              const showColorSwatches = isColorOption;
 
               return (
                 <button

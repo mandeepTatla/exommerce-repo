@@ -64,7 +64,14 @@ export function ProductProvider({
   useEffect(() => {
     const firstAvailableVariant = variants.find((variant: any) => variant.availableForSale);
 
-    if (firstAvailableVariant) {
+    // Check if a variant is already selected via URL
+    const hasVariantInURL = variants.some((variant: any) =>
+      variant.selectedOptions.every(
+        (option: any) => state[option.name.toLowerCase()] === option.value
+      )
+    );
+
+    if (firstAvailableVariant && !hasVariantInURL) {
       const selectedOptions = firstAvailableVariant.selectedOptions.reduce(
         (acc: ProductState, option: any) => {
           acc[option.name.toLowerCase()] = option.value;
