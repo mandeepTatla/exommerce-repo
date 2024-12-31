@@ -1,10 +1,10 @@
-import { XMarkIcon } from '@heroicons/react/24/outline';
-import clsx from 'clsx';
+import { FaXmark } from 'react-icons/fa6';
 
-export default function CloseCart({ className }: { className?: string }) {
+export default function CloseCart() {
   return (
-    <div className="relative flex h-12 w-12 items-center justify-center  text-white transition-colors">
-      <XMarkIcon className={clsx('h-7 transition-all ease-in-out hover:scale-110', className)} />
+    <div className="relative flex h-12 w-12 items-center justify-end text-white">
+      {/* @ts-ignore */}
+      <FaXmark title="Close cart" className="h-6 w-6" /> as IconType
     </div>
   );
 }
