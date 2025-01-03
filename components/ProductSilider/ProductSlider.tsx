@@ -1,5 +1,6 @@
 'use client';
 
+import { sendGTMEvent } from '@next/third-parties/google';
 import { useProject } from 'hooks/useProject';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -23,6 +24,16 @@ const ProductSlider = ({ title, products }: { title: string; products: any[] }) 
   const visibleSlides = products.length > 4 ? 4 : products.length;
 
   const showControls = products.length > visibleSlides;
+
+  const trackCarouselProductClick = (product: any) => {
+    sendGTMEvent({
+      event: 'carousel_product_click',
+      product_name: product.title,
+      product_id: product.id,
+      slider_title: title,
+      page_url: window.location.href
+    });
+  };
 
   return (
     <div className={`${styles.container} mx-auto mb-6 mt-6 max-w-[1500px]`}>
@@ -95,6 +106,7 @@ const ProductSlider = ({ title, products }: { title: string; products: any[] }) 
                 href={`/product/${product.handle}`}
                 className="relative inline-block h-full w-full"
                 prefetch={true}
+                onClick={() => trackCarouselProductClick(product)}
               >
                 {/* Product Image */}
                 <Image
@@ -102,11 +114,11 @@ const ProductSlider = ({ title, products }: { title: string; products: any[] }) 
                   src={product.featuredImage?.url}
                   width={255}
                   height={255}
-                  className="bg-white-200 aspect-square w-full rounded-md bg-[#f5f5f5]  group-hover:opacity-75"
+                  className="bg-white-200 aspect-square w-full rounded-md object-contain group-hover:opacity-75"
                 />
                 {/* Product Details */}
                 <div className="pb-4 pt-4 text-center">
-                  <h3 className="line-clamp-2 h-[40px] text-sm font-medium text-gray-900 object-contain">
+                  <h3 className="line-clamp-2 h-[40px] object-contain text-sm font-medium text-gray-900">
                     {product.title}
                   </h3>
                   <div className="mt-4">
