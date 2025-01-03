@@ -1,5 +1,6 @@
 'use client';
 
+import { sendGTMEvent } from '@next/third-parties/google';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -15,9 +16,20 @@ import {
 import { indexName, searchClient } from './algoliaClient';
 import styles from './algoliaSearch.module.css';
 
-function Hit({ hit }) {
+function Hit({ hit, query }) {
+  console.log(hit);
+  const handleResultClick = () => {
+    sendGTMEvent({
+      event: 'product_click_from_search',
+      search_query: query,
+      product_name: hit.title,
+      product_id: hit.objectID,
+      page_url: window.location.href
+    });
+  };
+
   return (
-    <Link href={`/product/${hit.handle}`}>
+    <Link href={`/product/${hit.handle}`} onClick={handleResultClick}>
       <div className={styles.hitItem}>
         <Image src={hit.image} alt={hit.title} className={styles.hitImage} width={60} height={60} />
         <div>
@@ -31,9 +43,16 @@ function Hit({ hit }) {
   );
 }
 
-function CustomHits(props) {
-  const { query } = props;
+function CustomHits({ query }) {
   const { hits } = useHits();
+
+  const handleViewAllClick = () => {
+    sendGTMEvent({
+      event: 'view_all_search_results',
+      search_query: query,
+      page_url: window.location.href
+    });
+  };
 
   return (
     <>
@@ -45,7 +64,7 @@ function CustomHits(props) {
         <>
           {hits.length > 5 && query.length >= 2 && (
             <div className={styles.viewAllWrapper}>
-              <Link href={`/search?q=${query}`} passHref>
+              <Link href={`/search?q=${query}`} passHref onClick={handleViewAllClick}>
                 <div className={styles.viewAll}>
                   <span className={styles.viewText}>View all the results</span>
                   <FaArrowCircleRight />
@@ -54,7 +73,7 @@ function CustomHits(props) {
             </div>
           )}
           {hits.map((hit) => (
-            <Hit key={hit.objectID} hit={hit} />
+            <Hit key={hit.objectID} hit={hit} query={query} />
           ))}
         </>
       )}
@@ -68,13 +87,24 @@ export const Search = () => {
   const router = useRouter();
   const isEnterPressed = useRef(false);
 
+  const handleSearchSubmit = () => {
+    if (query.length >= 2) {
+      sendGTMEvent({
+        event: 'search_submit',
+        search_query: query,
+        page_url: window.location.href
+      });
+      router.push(`/search?q=${query}`);
+    }
+  };
+
   const handleKeyDown = (event) => {
     if (event.key === 'Enter' && query.length >= 2) {
       event.preventDefault();
       isEnterPressed.current = true;
       setShowResults(false);
       document.body.classList.remove('dropdown-open');
-      router.push(`/search?q=${query}`);
+      handleSearchSubmit();
     }
   };
 
@@ -92,8 +122,6 @@ export const Search = () => {
     setTimeout(() => {
       setShowResults(false);
       document.body.classList.remove('dropdown-open');
-
-      // Restore viewport settings after blur
       const viewport = document.querySelector('meta[name=viewport]');
       viewport.setAttribute('content', 'width=device-width, initial-scale=1');
     }, 200);
@@ -122,7 +150,6 @@ export const Search = () => {
           onKeyDown={handleKeyDown}
           onBlur={handleBlur}
         />
-
         {showResults && (
           <div className={styles.dropdown}>
             <div className={styles.dropdownHeader}>
