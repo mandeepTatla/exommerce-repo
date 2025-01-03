@@ -1,3 +1,4 @@
+import { GoogleAnalytics } from '@next/third-parties/google';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { CartProvider } from 'components/cart/cart-context';
@@ -63,6 +64,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
             <Toaster closeButton />
             <SpeedInsights />
             <Analytics />
+            <GoogleAnalytics gaId={`${process.env.NEXT_GA_TRACKING_ID}`} />
           </main>
         </CartProvider>
       </body>

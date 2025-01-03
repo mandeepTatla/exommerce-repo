@@ -1,4 +1,5 @@
 'use client';
+import { sendGTMEvent } from '@next/third-parties/google';
 import Image from 'next/image';
 import Link from 'next/link';
 import { A11y, Autoplay, Pagination } from 'swiper/modules';
@@ -6,6 +7,14 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 const HeroSection = ({ heroData }: { heroData: any[] }) => {
   if (!heroData || heroData.length === 0) return null;
+
+  const handleCTAClick = (slide: any) => {
+    sendGTMEvent({
+      event: 'hero_cta_click',
+      slide_title: slide.title,
+      slide_url: slide.url
+    });
+  };
 
   return (
     <div className="d-grid w-100 relative mx-auto mb-1 mt-[-0.75rem] pt-0">
@@ -37,6 +46,7 @@ const HeroSection = ({ heroData }: { heroData: any[] }) => {
                     <Link
                       href={slide.url}
                       className="inline-block rounded bg-black px-6 py-3 text-white"
+                      onClick={() => handleCTAClick(slide)}
                     >
                       {slide.cta_text}
                     </Link>
