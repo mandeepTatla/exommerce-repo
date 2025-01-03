@@ -6,6 +6,7 @@ import Footer from 'components/layout/footer';
 import { Gallery } from 'components/product/gallery';
 import { ProductProvider } from 'components/product/product-context';
 import { ProductDescription } from 'components/product/product-description';
+import { ViewItemTracker } from 'components/product/view-item-tracker';
 import { HIDDEN_PRODUCT_TAG } from 'lib/constants';
 import { getProduct, getProductRecommendations } from 'lib/shopify';
 import { Image as ImageTypes } from 'lib/shopify/types';
@@ -77,6 +78,16 @@ export default async function ProductPage(props: { params: Promise<{ handle: str
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(productJsonLd)
+        }}
+      />
+
+      <ViewItemTracker
+        product={{
+          id: product.id,
+          title: product.title,
+          price: product.priceRange.minVariantPrice.amount,
+
+          currency: product.priceRange.minVariantPrice.currencyCode
         }}
       />
       <div className="mx-auto max-w-screen-2xl px-4">
